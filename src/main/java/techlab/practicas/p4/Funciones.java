@@ -7,6 +7,8 @@ public class Funciones {
     public static void main(String[] args) {
         ArrayList<String> productos = new ArrayList<>();
         productos.addAll(Arrays.asList(" té CHAi ", " AGUA de mESA ", " AcEiTe DE oliVA "));
+        // " AGUA de mESA " ---capitalizeSobreCarga---> "Agua De Mesa"
+        // " AGUA-de-mESA " ---capitalizeSobreCarga, "-"---> "texto lindo: Agua De Mesa"
 
         ArrayList<String> productosCapitalizados = new ArrayList<>();
         // Capitalizar todos los elementos de la lista de productos
