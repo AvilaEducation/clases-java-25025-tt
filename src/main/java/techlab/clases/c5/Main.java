@@ -2,7 +2,7 @@ package techlab.clases.c5;
 
 public class Main {
     public static void main(String[] args) {
-        Producto teclado = new Producto("teclado", 20000);
+        Producto teclado = new Producto("teclado", -200);
 
         teclado.descontarStock();
 
