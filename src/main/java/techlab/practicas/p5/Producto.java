@@ -3,7 +3,7 @@ package techlab.practicas.p5;
 public class Producto {
     // descripcion (atributos)
     String nombre;
-    double precio;
+    private double precio; // valores entre 1 y 10000
     int stock;
     int cantidad;
     double descuento; // descuento es un numero entre 0 y 100
@@ -17,6 +17,14 @@ public class Producto {
         this.stock = 20;
         this.cantidad = 1;
         this.descuento = 0;
+    }
+
+    public void actualizarPrecio(double precio){
+        if (precio >= 1 && precio <= 10000){
+            this.precio = precio;
+        }else{
+            System.out.println("ERROR");
+        }
     }
 
     void print(){
@@ -43,7 +51,7 @@ public class Producto {
         return this.nombre.contains(busqueda);
     }
 
-    double calcularPrecioTotal(){
+    public double calcularPrecioTotal(){
         double precioSinDescuento = this.precio * this.cantidad;
         // se busca obtener un numero entre 0 y 1;
         double descuento = 1 - (this.descuento / 100);
