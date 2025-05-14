@@ -21,6 +21,11 @@ public class Bebida extends Producto {
         return 0;
     }
 
+    @Override
+    public double calcularTotal(String dato) {
+        return 0;
+    }
+
     public void nuevoMetodo(){
         System.out.println("nuevo metodo");
     }

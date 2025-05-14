@@ -12,4 +12,14 @@ public class Comida extends Producto {
     public void mostrarInfo(){
         System.out.println("Peso del producto: " + this.pesoGramos);
     }
+
+    @Override
+    public double calcularTotal() {
+        return 0;
+    }
+
+    @Override
+    public double calcularTotal(String dato) {
+        return 0;
+    }
 }
