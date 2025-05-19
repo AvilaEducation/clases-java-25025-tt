@@ -24,11 +24,6 @@ public class Main {
 
         for (Producto productoFor : productos){
             productoFor.mostrarInfo();
-            if (productoFor instanceof Bebida){
-                ((Bebida) productoFor).nuevoMetodo();
-                Bebida bebida1 = (Bebida) productoFor;
-                bebida1.nuevoMetodo();
-            }
         }
     }
 }
