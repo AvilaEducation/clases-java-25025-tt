@@ -12,7 +12,7 @@ public class ProductoEjemplo {
     private UsuarioEjemplo usuario;
 
     // SOLO DE EJEMPLO
-    // lo que cambia es la comvencion de nombre:
+    // lo que cambia es la convention de nombre:
     // en JSON es snake_case y en java es camelCase
     private ArrayList<Long> idsProductos;
 
