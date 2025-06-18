@@ -6,11 +6,12 @@ import techlab.entity.Producto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 @RestController
 @RequestMapping("/product")
 public class ProductController {
+    // DTO
+
     // "BASE DE DATOS" en memoria
     private ArrayList<Producto> productos;
 
@@ -22,12 +23,36 @@ public class ProductController {
     // ENDPOINTS
     @PostMapping("/")
     public String createProduct(@RequestBody Producto producto){
-        return agregarProducto(producto);
+        return this.agregarProducto(producto);
     }
 
     @GetMapping("/list")
-    public List<Producto> listarProductos(){
-        return this.productos;
+    public List<Producto> obtenerListadoProductos(){
+        return this.listarProductos();
+    }
+
+    @GetMapping("/find")
+    public List<Producto> obtenerProductos(@RequestParam String nombreBusqueda){
+        return this.buscarProducto(nombreBusqueda);
+    }
+
+    // localhost:8080/product/alksjd -> error
+    // localhost:8080/product/12434  -> correcto
+    // localhost:8080/product/false  -> error
+    // localhost:8080/product/123    -> correcto
+    @GetMapping("/{id}")
+    public Producto obtenerProductoPorId(@PathVariable Long id){
+        return this.buscarPorId(id);
+    }
+
+    @PutMapping("/{id}")
+    public Producto editarPrecioProducto(@PathVariable Long id, @RequestParam Double nuevoPrecio){
+        return this.editarProducto(id, nuevoPrecio);
+    }
+
+    @DeleteMapping("/{id}")
+    public Producto borrarProducto(@PathVariable Long id){
+        return this.eliminarProducto(id);
     }
 
     // METODOS
@@ -36,6 +61,60 @@ public class ProductController {
         productos.add(producto);
 
         return "☣ Producto cargado exitosamente! ☣ \n ID del Producto: " + producto.getId();
+    }
+
+    // GET
+    private List<Producto> listarProductos() {
+        return this.productos;
+    }
+
+    // GET
+    private ArrayList<Producto> buscarProducto(String busqueda) {
+        ArrayList<Producto> productosEncontrados = new ArrayList<>();
+
+        for (Producto producto : productos){
+            if (producto.contieneNombre(busqueda)){
+                productosEncontrados.add(producto);
+            }
+        }
+
+        return productosEncontrados;
+    }
+
+    private Producto buscarPorId(Long id) {
+        for (Producto producto : productos){
+            if (producto.getId() == id){
+                return producto;
+            }
+        }
+
+        // si llega aca es porque no encontro el producto
+        return null;
+    }
+
+    private Producto editarProducto(Long id, Double nuevoPrecio){
+        Producto producto = this.buscarPorId(id);
+
+        if (producto == null){
+            return null;
+        }
+
+        producto.setPrecio(nuevoPrecio);
+
+        return producto;
+    }
+
+    // DELETE
+    private Producto eliminarProducto(Long id) {
+        Producto producto = this.buscarPorId(id);
+
+        if (producto == null){
+            return null;
+        }
+
+        this.productos.remove(producto);
+
+        return producto;
     }
 
     // POST
@@ -52,72 +131,9 @@ public class ProductController {
         pedidos.add(nuevoPedido);
     }
 
-    // DELETE
-    private static void eliminarProducto(ArrayList<Producto> productos) {
-        Scanner entrada = new Scanner(System.in);
-        System.out.println("Ingrese el ID del producto a eliminar: ");
-        int idAEliminar = entrada.nextInt();
-        boolean eliminado = false;
-        boolean encontrado = false;
-        for (Producto producto : productos){
-            if (producto.getId() == idAEliminar){
-                encontrado = true;
-                System.out.println("El producto que quiere eliminar es el siguiente: ");
-                producto.mostrarInfo();
-                System.out.println("Confirma la accion?");
-                System.out.println("1 - SI");
-                System.out.println("2 - NO");
-                int opcionEliminar = entrada.nextInt();
-                if (opcionEliminar == 1){
-                    System.out.println("ELIMINANDO");
-                    productos.remove(producto);
-                    eliminado = true;
-                    break;
-                }
-            }
-        }
 
-        if (!encontrado){
-            throw new RuntimeException("No encontramos ningun producto con el id: " + idAEliminar);
-        }
 
-        if (eliminado){
-            System.out.println("Eliminado con exito");
-        }
-    }
 
-    // GET
-    private static void buscarProducto(ArrayList<Producto> productos) {
-        System.out.println("Buscador de productos: ");
-        Scanner entrada = new Scanner(System.in);
-        String busqueda = entrada.nextLine();
-        ArrayList<Producto> productosEncontrados = new ArrayList<>();
-
-        for (Producto producto : productos){
-            if (producto.contieneNombre(busqueda)){
-                productosEncontrados.add(producto);
-            }
-        }
-
-        if (productosEncontrados.isEmpty()){
-            System.out.println("No encontramos productos....");
-        }else{
-            for (Producto producto : productosEncontrados){
-                producto.mostrarInfo();
-            }
-        }
-    }
-
-    // GET
-    private static void listarProductos(ArrayList<Producto> productos) {
-        if (productos.isEmpty()){
-            System.out.println("No hay producto todavia :(");
-        }else {
-            for (Producto producto : productos){
-                producto.mostrarInfo();
-            }
-        }
-    }
 
     public void agregarProductosDeEjemplo() {
         productos.add(new Producto("Monitor", 1000, 10));
