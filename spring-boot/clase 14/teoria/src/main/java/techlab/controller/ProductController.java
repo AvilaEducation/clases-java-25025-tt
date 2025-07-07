@@ -56,7 +56,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public Producto borrarProducto(@PathVariable Long id){
-        return this.service.eliminarProducto(id);
+            return this.service.eliminarProducto(id);
     }
 
 }
